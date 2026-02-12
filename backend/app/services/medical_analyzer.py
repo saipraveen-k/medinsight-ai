@@ -117,17 +117,22 @@ class MedicalAnalyzer:
         
         # Fallback: try to identify by keywords (grouping similar markers)
         if any(keyword in name_lower for keyword in ['hba1c', 'glycated']):
-            return self.reference_ranges['hba1c']
+            return {'name': 'hba1c', **self.reference_ranges['hba1c']}
+
         if any(keyword in name_lower for keyword in ['fasting blood glucose', 'fbs']):
-            return self.reference_ranges['fasting blood glucose']
+            return {'name': 'fasting blood glucose', **self.reference_ranges['fasting blood glucose']}
+
         if any(keyword in name_lower for keyword in ['glucose', 'sugar']):
-            return self.reference_ranges['glucose']
+            return {'name': 'glucose', **self.reference_ranges['glucose']}
+
         elif any(keyword in name_lower for keyword in ['total cholesterol']):
-            return self.reference_ranges['total cholesterol']
+            return {'name': 'total cholesterol', **self.reference_ranges['total cholesterol']}
+
         elif any(keyword in name_lower for keyword in ['cholesterol', 'ldl', 'hdl', 'triglyceride']):
-            return self.reference_ranges['cholesterol']
+            return {'name': 'cholesterol', **self.reference_ranges['cholesterol']}
+
         elif any(keyword in name_lower for keyword in ['hemoglobin', 'hgb']):
-            return self.reference_ranges['hemoglobin']
+            return {'name': 'hemoglobin', **self.reference_ranges['hemoglobin']}
         
         return None
     

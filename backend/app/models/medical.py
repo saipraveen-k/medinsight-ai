@@ -33,7 +33,7 @@ class MedicalData(BaseModel):
 class RiskScore(BaseModel):
     score: int  # 0-100
     level: RiskLevel
-    category_scores: Dict[str, int]
+    category_scores: Dict[str, float]
 
 class AIInsights(BaseModel):
     summary: str

@@ -37,7 +37,7 @@ class RiskScorer:
             
             if category_params:
                 category_score = self._calculate_category_score(category_params)
-                category_scores[category.value] = category_score
+                category_scores[category.value] = float(category_score)
                 total_score += category_score * self.category_weights[category]
             else:
                 category_scores[category.value] = 0
