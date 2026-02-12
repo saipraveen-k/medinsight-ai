@@ -19,7 +19,7 @@ cd backend
 pip install -r requirements.txt
 cp .env.example .env
 # Add your OPENAI_API_KEY to .env
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### 3. Frontend Setup
@@ -30,9 +30,17 @@ npm run dev
 ```
 
 ### 4. Access the Application
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+- **Local Access:**
+  - Frontend: http://localhost:3000
+  - Backend API: http://localhost:8000
+  - API Docs: http://localhost:8000/docs
+
+- **Network Access (from other devices on same network):**
+  - Frontend: http://YOUR_IP:3000
+  - Backend API: http://YOUR_IP:8000
+  - API Docs: http://YOUR_IP:8000/docs
+
+To find YOUR_IP, run: `ipconfig` (Windows) or `ifconfig` (Mac/Linux)
 
 ## 🎯 MVP Features
 
@@ -54,8 +62,8 @@ npm run dev
 
 ### Backend
 ```bash
-# Start server
-uvicorn app.main:app --reload --port 8000
+# Start server (network accessible)
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 # Run tests
 pytest

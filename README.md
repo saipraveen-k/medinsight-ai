@@ -61,7 +61,7 @@ cp .env.example .env
 # add your default OpenAI key in .env (used when UI key is empty)
 # OPENAI_API_KEY=your_openai_api_key_here
 
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 #### Frontend
@@ -72,6 +72,15 @@ npm run dev
 ```
 
 Then open `http://localhost:3000` and:
+
+### Network Access (like Streamlit)
+For access from other devices on your network:
+- **Frontend**: http://YOUR_IP:3000  
+- **Backend API**: http://YOUR_IP:8000
+- **API Docs**: http://YOUR_IP:8000/docs
+
+Find your IP with `ipconfig` (Windows) or `ifconfig` (Mac/Linux)
+
 - Go to the **Upload** page
 - (Optional) Paste an OpenAI API key in the field at the top of the card – this key is stored only in your browser and overrides the backend `.env` key for that browser
 - Drag-and-drop a **PDF file (max 10MB)** and wait for analysis
