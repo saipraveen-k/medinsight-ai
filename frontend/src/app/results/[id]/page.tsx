@@ -72,7 +72,7 @@ export default function ResultsPage() {
 
   const fetchResults = async (uploadId: string) => {
     try {
-      const response = await fetch(`/api/analysis/${uploadId}`, {
+      const response = await fetch(`http://localhost:8000/api/analysis/${uploadId}`, {
         headers: apiKey ? { 'x-api-key': apiKey } : undefined,
       })
       if (response.ok) {
@@ -103,7 +103,7 @@ export default function ResultsPage() {
     setIsDownloading(true)
     
     try {
-      const response = await fetch(`/api/analysis/${result.upload_id}/download`, {
+      const response = await fetch(`http://localhost:8000/api/analysis/${result.upload_id}/download`, {
         method: 'GET',
         headers: apiKey ? { 'x-api-key': apiKey } : undefined,
       })
@@ -291,3 +291,4 @@ export default function ResultsPage() {
     </div>
   )
 }
+// const response = await fetch(`/api/analysis/${uploadId}`, { -74
