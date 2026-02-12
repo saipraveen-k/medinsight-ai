@@ -9,7 +9,7 @@
 
 ### 1. Clone & Setup
 ```bash
-git clone <repository>
+git clone https://github.com/saipraveen-k/medinsight-ai
 cd medinsight-ai
 ```
 
