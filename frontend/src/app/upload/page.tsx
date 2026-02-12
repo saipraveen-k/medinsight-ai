@@ -117,157 +117,181 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
+    <div className="min-h-screen bg-slate-950 text-slate-50">
+      <div className="bg-gradient-to-br from-sky-500/25 via-[#BBDEF0]/25 to-indigo-900/80">
+        {/* Header */}
+        <header className="border-b border-slate-900/80 bg-slate-950/80 backdrop-blur">
+          <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3">
               <Link href="/">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-slate-200 hover:bg-slate-800">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
               </Link>
-              <div className="flex items-center space-x-2">
-                <FileText className="h-6 w-6 text-blue-600" />
-                <h1 className="text-xl font-semibold text-gray-900">Upload Medical Report</h1>
+              <div className="flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#BBDEF0] shadow-sm shadow-sky-400/40">
+                  <FileText className="h-4 w-4 text-sky-900" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-slate-50">Upload medical report</span>
+                  <span className="text-[11px] text-slate-400">PDF only · Max 10MB</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          {/* Upload Card */}
-          <Card className="shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Upload Your Medical Report</CardTitle>
-              <CardDescription>
-                Drag and drop your PDF medical report or click to browse
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Optional API key entry (overrides backend default key) */}
-              <div className="mb-6 space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Optional: OpenAI API Key (for this browser only)
-                </label>
-                <input
-                  type="password"
-                  value={apiKey}
-                  onChange={(e) => handleApiKeyChange(e.target.value)}
-                  placeholder="Use backend default or paste your own key"
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <p className="text-xs text-gray-500">
-                  If left empty, the backend uses its configured default key.
-                  The key you enter here is stored only in your browser (localStorage) for this hackathon demo.
-                </p>
-              </div>
+        {/* Main Content */}
+        <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 pb-12 pt-8 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
+          >
+            {/* Upload Card */}
+            <Card className="border-slate-800 bg-slate-950/80 shadow-xl shadow-sky-900/40">
+              <CardHeader>
+                <CardTitle className="text-xl text-slate-50">Upload your lab PDF</CardTitle>
+                <CardDescription className="text-slate-400">
+                  Drag and drop a lab report PDF, or click to browse your files. We extract CBC,
+                  glucose, lipid, kidney and liver markers automatically.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Optional API key entry (overrides backend default key) */}
+                <div className="space-y-2 rounded-lg border border-slate-800 bg-slate-900/70 p-4">
+                  <label className="block text-xs font-medium text-slate-200">
+                    Optional: OpenAI API key for this browser
+                  </label>
+                  <input
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => handleApiKeyChange(e.target.value)}
+                    placeholder="Leave empty to use the backend default key from .env"
+                    className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
+                  <p className="text-[11px] text-slate-400">
+                    Stored only in your browser (localStorage) for this demo. Not shared with the
+                    backend or other users.
+                  </p>
+                </div>
 
-              {uploadStatus === 'idle' && (
-                <div
-                  {...getRootProps()}
-                  className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
-                    isDragActive
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-300 hover:border-gray-400'
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  {isDragActive ? (
-                    <p className="text-blue-600 font-medium">Drop the PDF here...</p>
-                  ) : (
-                    <div>
-                      <p className="text-gray-600 mb-2">
-                        Drag & drop a medical report PDF here, or click to select
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Supported format: PDF (Max 10MB)
-                      </p>
+                {uploadStatus === 'idle' && (
+                  <div
+                    {...getRootProps()}
+                    className={`group relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-10 text-center transition-colors ${
+                      isDragActive
+                        ? 'border-sky-400 bg-sky-500/10'
+                        : 'border-slate-700 hover:border-sky-400 hover:bg-slate-900/60'
+                    }`}
+                  >
+                    <input {...getInputProps()} />
+                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-sky-300 ring-1 ring-sky-500/40">
+                      <Upload className="h-7 w-7" />
                     </div>
-                  )}
-                </div>
-              )}
+                    {isDragActive ? (
+                      <p className="text-sm font-medium text-sky-200">Drop the PDF here…</p>
+                    ) : (
+                      <>
+                        <p className="text-sm font-medium text-slate-50">
+                          Drag & drop a medical report PDF here
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          or click to browse your files · PDF only · Max 10MB
+                        </p>
+                      </>
+                    )}
+                  </div>
+                )}
 
-              {uploadStatus === 'uploading' && (
-                <div className="text-center space-y-4">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                  <h3 className="text-lg font-medium">Processing your report...</h3>
-                  <p className="text-gray-600">Analyzing medical parameters and generating insights</p>
-                  <Progress value={uploadProgress} className="w-full" />
-                  <p className="text-sm text-gray-500">{uploadProgress}% complete</p>
-                </div>
-              )}
+                {uploadStatus === 'uploading' && (
+                  <div className="space-y-4 rounded-2xl border border-sky-500/40 bg-slate-900/70 p-6 text-center">
+                    <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-sky-400" />
+                    <h3 className="text-base font-medium text-slate-50">
+                      Processing your report…
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Extracting parameters, computing risk score and generating AI explanation.
+                    </p>
+                    <Progress value={uploadProgress} className="w-full" />
+                    <p className="text-xs text-slate-500">{uploadProgress}% complete</p>
+                  </div>
+                )}
 
-              {uploadStatus === 'success' && (
-                <div className="text-center space-y-4">
-                  <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
-                  <h3 className="text-lg font-medium text-green-600">Upload Successful!</h3>
-                  <p className="text-gray-600">Your report has been processed successfully.</p>
-                  <p className="text-sm text-blue-600">Redirecting to results...</p>
-                </div>
-              )}
+                {uploadStatus === 'success' && (
+                  <div className="space-y-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-6 text-center">
+                    <CheckCircle className="mx-auto h-10 w-10 text-emerald-300" />
+                    <h3 className="text-base font-medium text-emerald-100">
+                      Upload successful!
+                    </h3>
+                    <p className="text-xs text-emerald-100/80">
+                      Your report has been analyzed. Redirecting to your dashboard…
+                    </p>
+                  </div>
+                )}
 
-              {uploadStatus === 'error' && (
-                <div className="text-center space-y-4">
-                  <AlertCircle className="mx-auto h-12 w-12 text-red-500" />
-                  <h3 className="text-lg font-medium text-red-600">Upload Failed</h3>
-                  <p className="text-gray-600">{errorMessage}</p>
-                  <Button onClick={resetUpload} variant="outline">
-                    Try Again
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Information Cards */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Secure Processing</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 text-sm">
-                  Your medical reports are processed securely and are not stored permanently.
-                </p>
+                {uploadStatus === 'error' && (
+                  <div className="space-y-4 rounded-2xl border border-red-500/40 bg-red-500/10 p-6 text-center">
+                    <AlertCircle className="mx-auto h-10 w-10 text-red-300" />
+                    <h3 className="text-base font-medium text-red-100">Upload failed</h3>
+                    <p className="text-xs text-red-100/80">{errorMessage}</p>
+                    <Button onClick={resetUpload} variant="outline" className="border-red-400/60 text-red-100 hover:bg-red-500/10">
+                      Try again
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Fast Analysis</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 text-sm">
-                  Get instant AI-powered analysis of your medical parameters within seconds.
-                </p>
-              </CardContent>
-            </Card>
+            {/* Information / reassurance panel */}
+            <div className="space-y-4">
+              <Card className="border-slate-800 bg-slate-950/80">
+                <CardHeader>
+                  <CardTitle className="text-sm text-slate-100">What we analyze</CardTitle>
+                  <CardDescription className="text-xs text-slate-400">
+                    Optimized for typical lab reports used in primary care checkups.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-3 text-[11px] text-slate-300">
+                  <div className="rounded-lg bg-slate-900/80 p-3">
+                    <p className="font-semibold text-sky-200">🩸 Blood health</p>
+                    <p className="mt-1">
+                      Hemoglobin, WBC, RBC, platelets, hematocrit — summarized into a single blood
+                      health view.
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-slate-900/80 p-3">
+                    <p className="font-semibold text-amber-200">🍬 Glucose & lipids</p>
+                    <p className="mt-1">
+                      Fasting glucose, HbA1c and full lipid profile to estimate metabolic and
+                      cardiovascular risk.
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-slate-900/80 p-3">
+                    <p className="font-semibold text-emerald-200">🧪 Kidney & liver</p>
+                    <p className="mt-1">
+                      Creatinine, urea and ALT to flag potential organ stress early.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Clinical Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 text-sm">
-                  This tool assists but does not replace professional medical advice.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </motion.div>
-      </main>
+              <Card className="border-slate-800 bg-slate-950/80">
+                <CardContent className="pt-4 text-[11px] text-slate-400">
+                  <p className="font-semibold text-slate-200">Safety first</p>
+                  <p className="mt-1">
+                    MedInsight AI is a decision-support tool. It explains numbers and highlights
+                    patterns, but it does not diagnose disease or replace professional medical
+                    advice.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </motion.div>
+        </main>
+      </div>
     </div>
   )
 }

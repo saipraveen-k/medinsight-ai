@@ -102,10 +102,12 @@ export default function ResultsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your analysis results...</p>
+      <div className="min-h-screen bg-slate-950 text-slate-50">
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-500/20 via-slate-950 to-indigo-900/70">
+          <div className="text-center text-sm text-slate-300">
+            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-sky-400" />
+            <p>Loading your analysis results…</p>
+          </div>
         </div>
       </div>
     )
@@ -113,203 +115,241 @@ export default function ResultsPage() {
 
   if (error || !result) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-red-600">Error</CardTitle>
-            <CardDescription>{error || 'Results not found'}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/">
-              <Button className="w-full">Back to Home</Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-slate-950 text-slate-50">
+        <div className="flex min-h-screen items-center justify-center">
+          <Card className="max-w-md border-red-500/40 bg-slate-950/90">
+            <CardHeader className="text-center">
+              <CardTitle className="text-red-300">Error</CardTitle>
+              <CardDescription className="text-slate-300">
+                {error || 'Results not found'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/">
+                <Button className="w-full bg-sky-500 text-white hover:bg-sky-400">
+                  Back to Home
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
+    <div className="min-h-screen bg-slate-950 text-slate-50">
+      <div className="bg-gradient-to-br from-sky-500/20 via-slate-950 to-indigo-900/80">
+        {/* Header */}
+        <header className="border-b border-slate-900/80 bg-slate-950/80 backdrop-blur">
+          <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3">
               <Link href="/">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-slate-200 hover:bg-slate-800">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
               </Link>
-              <h1 className="text-xl font-semibold text-gray-900">Analysis Results</h1>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-slate-50">Analysis results</span>
+                <span className="text-[11px] text-slate-400">
+                  Upload ID: {result.upload_id.slice(0, 8)}…
+                </span>
+              </div>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800"
+              >
                 <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800"
+              >
                 <Share2 className="mr-2 h-4 w-4" />
                 Share
               </Button>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          {/* Risk Score Card */}
-          <Card className="shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Your Health Risk Assessment</CardTitle>
-              <CardDescription>
-                Analysis completed for {result.medical_data.total_parameters} medical parameters
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center space-x-8">
-                <div className="text-center">
-                  {getRiskIcon(result.risk_score.level)}
-                  <div className={`mt-4 px-6 py-3 rounded-full ${getRiskColor(result.risk_score.level)}`}>
-                    <div className="text-3xl font-bold">{result.risk_score.score}/100</div>
-                    <div className="text-sm font-medium uppercase">{result.risk_score.level} RISK</div>
-                  </div>
-                </div>
-                <div className="text-left space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Total Parameters:</span>
-                    <span className="font-medium">{result.medical_data.total_parameters}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Abnormal Findings:</span>
-                    <span className="font-medium text-red-600">{result.medical_data.abnormal_count}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Normal Results:</span>
-                    <span className="font-medium text-green-600">
-                      {result.medical_data.total_parameters - result.medical_data.abnormal_count}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Medical Parameters */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Medical Parameters</CardTitle>
-                <CardDescription>
-                  Detailed breakdown of your medical test results
+        {/* Main Content */}
+        <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            {/* Risk Score Card */}
+            <Card className="border-slate-800 bg-slate-950/80 shadow-xl shadow-sky-900/40">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-slate-50">Health risk assessment</CardTitle>
+                <CardDescription className="text-slate-400">
+                  Analysis across {result.medical_data.total_parameters} lab parameters
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3 max-h-96 overflow-y-auto">
-                  {result.medical_data.parameters.map((param, index) => (
+                <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+                  <div className="text-center">
+                    {getRiskIcon(result.risk_score.level)}
                     <div
-                      key={index}
-                      className={`p-3 rounded-lg border ${
-                        param.is_abnormal
-                          ? 'border-red-200 bg-red-50'
-                          : 'border-green-200 bg-green-50'
-                      }`}
+                      className={`mt-4 rounded-full px-6 py-3 text-sm font-medium uppercase ${getRiskColor(
+                        result.risk_score.level
+                      )}`}
                     >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="font-medium">{param.name}</div>
-                          <div className="text-sm text-gray-600">{param.category}</div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-medium">
-                            {param.value} {param.unit}
-                          </div>
-                          {param.normal_min !== undefined && param.normal_max !== undefined && (
-                            <div className="text-sm text-gray-600">
-                              Normal: {param.normal_min}-{param.normal_max} {param.unit}
-                            </div>
-                          )}
-                        </div>
+                      <div className="text-3xl font-bold">
+                        {result.risk_score.score}
+                        <span className="text-base text-slate-300">/100</span>
                       </div>
-                      {param.is_abnormal && (
-                        <div className="mt-2 text-sm text-red-600 font-medium">
-                          ⚠️ Outside normal range
-                        </div>
-                      )}
+                      <div className="mt-1 tracking-wide">
+                        overall {result.risk_score.level} risk
+                      </div>
                     </div>
-                  ))}
+                  </div>
+                  <div className="w-full max-w-sm space-y-2 text-sm text-slate-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400">Total parameters</span>
+                      <span className="font-medium">{result.medical_data.total_parameters}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400">Abnormal findings</span>
+                      <span className="font-medium text-red-300">
+                        {result.medical_data.abnormal_count}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400">Within normal range</span>
+                      <span className="font-medium text-emerald-300">
+                        {result.medical_data.total_parameters -
+                          result.medical_data.abnormal_count}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* AI Insights */}
-            <Card>
-              <CardHeader>
-                <CardTitle>AI-Powered Insights</CardTitle>
-                <CardDescription>
-                  Personalized analysis and recommendations
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Summary</h4>
-                    <p className="text-gray-700 text-sm">{result.ai_insights.summary}</p>
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+              {/* Medical Parameters */}
+              <Card className="border-slate-800 bg-slate-950/80">
+                <CardHeader>
+                  <CardTitle className="text-slate-50">Medical parameters</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Detailed breakdown of your lab results with reference ranges.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="max-h-96 space-y-3 overflow-y-auto pr-1 text-sm">
+                    {result.medical_data.parameters.map((param, index) => (
+                      <div
+                        key={index}
+                        className={`rounded-lg border p-3 ${
+                          param.is_abnormal
+                            ? 'border-red-500/40 bg-red-500/10'
+                            : 'border-emerald-500/30 bg-emerald-500/5'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div>
+                            <div className="font-medium text-slate-50">{param.name}</div>
+                            <div className="text-xs capitalize text-slate-400">
+                              {param.category}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-semibold text-slate-50">
+                              {param.value} {param.unit}
+                            </div>
+                            {param.normal_min !== undefined &&
+                              param.normal_max !== undefined && (
+                                <div className="text-xs text-slate-400">
+                                  Normal: {param.normal_min}-{param.normal_max} {param.unit}
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                        {param.is_abnormal && (
+                          <div className="mt-2 text-xs font-medium text-red-200">
+                            ⚠ Outside the reference range
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
+                </CardContent>
+              </Card>
 
-                  {result.ai_insights.abnormal_findings.length > 0 && (
+              {/* AI Insights */}
+              <Card className="border-slate-800 bg-slate-950/80">
+                <CardHeader>
+                  <CardTitle className="text-slate-50">AI‑powered explanation</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Plain‑language overview with lifestyle‑oriented suggestions.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4 text-sm">
                     <div>
-                      <h4 className="font-medium mb-2 text-red-600">Abnormal Findings</h4>
-                      <ul className="space-y-1">
-                        {result.ai_insights.abnormal_findings.map((finding, index) => (
-                          <li key={index} className="text-sm text-gray-700">• {finding}</li>
+                      <h4 className="mb-2 font-medium text-slate-100">Summary</h4>
+                      <p className="text-sm text-slate-200">{result.ai_insights.summary}</p>
+                    </div>
+
+                    {result.ai_insights.abnormal_findings.length > 0 && (
+                      <div>
+                        <h4 className="mb-2 font-medium text-red-200">Abnormal findings</h4>
+                        <ul className="space-y-1 text-xs text-slate-200">
+                          {result.ai_insights.abnormal_findings.map((finding, index) => (
+                            <li key={index}>• {finding}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div>
+                      <h4 className="mb-2 font-medium text-slate-100">Recommendations</h4>
+                      <ul className="space-y-1 text-xs text-slate-200">
+                        {result.ai_insights.recommendations.map((rec, index) => (
+                          <li key={index}>• {rec}</li>
                         ))}
                       </ul>
                     </div>
-                  )}
 
-                  <div>
-                    <h4 className="font-medium mb-2">Recommendations</h4>
-                    <ul className="space-y-1">
-                      {result.ai_insights.recommendations.map((rec, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {rec}</li>
-                      ))}
-                    </ul>
+                    <div>
+                      <h4 className="mb-2 font-medium text-slate-100">
+                        When to consult your doctor
+                      </h4>
+                      <p className="text-xs text-slate-200">
+                        {result.ai_insights.when_to_consult_doctor}
+                      </p>
+                    </div>
                   </div>
+                </CardContent>
+              </Card>
+            </div>
 
+            {/* Disclaimer */}
+            <Card className="border-amber-500/40 bg-amber-500/10">
+              <CardContent className="pt-5 text-xs text-amber-50">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="mt-0.5 h-5 w-5 text-amber-200" />
                   <div>
-                    <h4 className="font-medium mb-2">When to Consult Doctor</h4>
-                    <p className="text-sm text-gray-700">{result.ai_insights.when_to_consult_doctor}</p>
+                    <h4 className="font-semibold">Medical disclaimer</h4>
+                    <p className="mt-1">
+                      {result.ai_insights.disclaimer}
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Disclaimer */}
-          <Card className="border-yellow-200 bg-yellow-50">
-            <CardContent className="pt-6">
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
-                <div>
-                  <h4 className="font-medium text-yellow-800">Medical Disclaimer</h4>
-                  <p className="text-sm text-yellow-700 mt-1">
-                    {result.ai_insights.disclaimer}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </main>
+          </motion.div>
+        </main>
+      </div>
     </div>
   )
 }
