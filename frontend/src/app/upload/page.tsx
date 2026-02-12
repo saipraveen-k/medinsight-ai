@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,7 +16,29 @@ export default function UploadPage() {
   const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
   const [uploadId, setUploadId] = useState<string | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const [apiKey, setApiKey] = useState<string>('')
   const router = useRouter()
+
+  // Load any previously saved API key from localStorage (client-side only)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = window.localStorage.getItem('medinsight-openai-key')
+      if (stored) {
+        setApiKey(stored)
+      }
+    }
+  }, [])
+
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value)
+    if (typeof window !== 'undefined') {
+      if (value) {
+        window.localStorage.setItem('medinsight-openai-key', value)
+      } else {
+        window.localStorage.removeItem('medinsight-openai-key')
+      }
+    }
+  }
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -50,6 +72,7 @@ export default function UploadPage() {
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
+        headers: apiKey ? { 'x-api-key': apiKey } : undefined,
       })
 
       clearInterval(progressInterval)
@@ -132,6 +155,24 @@ export default function UploadPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {/* Optional API key entry (overrides backend default key) */}
+              <div className="mb-6 space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Optional: OpenAI API Key (for this browser only)
+                </label>
+                <input
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => handleApiKeyChange(e.target.value)}
+                  placeholder="Use backend default or paste your own key"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <p className="text-xs text-gray-500">
+                  If left empty, the backend uses its configured default key.
+                  The key you enter here is stored only in your browser (localStorage) for this hackathon demo.
+                </p>
+              </div>
+
               {uploadStatus === 'idle' && (
                 <div
                   {...getRootProps()}

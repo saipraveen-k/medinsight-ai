@@ -44,6 +44,17 @@ export default function ResultsPage() {
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [apiKey, setApiKey] = useState<string>('')
+
+  // Load any saved API key so subsequent calls can reuse it if needed
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = window.localStorage.getItem('medinsight-openai-key')
+      if (stored) {
+        setApiKey(stored)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (params.id) {
@@ -53,7 +64,9 @@ export default function ResultsPage() {
 
   const fetchResults = async (uploadId: string) => {
     try {
-      const response = await fetch(`/api/analysis/${uploadId}`)
+      const response = await fetch(`/api/analysis/${uploadId}`, {
+        headers: apiKey ? { 'x-api-key': apiKey } : undefined,
+      })
       if (response.ok) {
         const data = await response.json()
         setResult(data)

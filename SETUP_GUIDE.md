@@ -116,7 +116,7 @@ pip list
 cp .env.example .env
 
 # Edit .env file (use any text editor)
-# Add your OpenAI API key:
+# Add your default OpenAI API key (used when UI key is empty):
 OPENAI_API_KEY=your_openai_api_key_here
 DATABASE_URL=sqlite:///./storage/medinsight.db
 DEBUG=True
@@ -179,7 +179,12 @@ echo NEXT_PUBLIC_API_URL=http://localhost:8000 > .env.local
 # Or create manually with content:
 # NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
+cd C:\tempp\projects\medinsight-ai\frontend
+npm install @radix-ui/react-slot class-variance-authority
 
+cd C:\tempp\projects\medinsight-ai\frontend
+npm install tailwind-merge
+npm run dev
 ### 4. Test Frontend Development Server
 ```bash
 # Start Next.js development server
@@ -247,14 +252,21 @@ curl http://localhost:8000/health
 
 ### 2. Upload Test File
 ```bash
-# Create a test PDF in backend/storage/uploads/
-# You can use any medical report PDF for testing
+# Ensure storage directories exist
+mkdir -p storage/uploads storage/processed
 
-# Test upload via API:
+# You can use any medical report PDF for testing (max 10MB).
+# Test upload via API (backend will run full pipeline and persist a JSON result):
 curl -X POST \
   http://localhost:8000/api/upload \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@test_report.pdf'
+```
+
+To retrieve the analysis later (as used by the frontend results page):
+
+```bash
+curl http://localhost:8000/api/analysis/<upload_id_returned_from_upload>
 ```
 
 ### 3. Check File Structure
@@ -425,6 +437,7 @@ C:\tempp\projects\medinsight-ai\backend\app\api\routes\
 2. Wait for processing (should be <30 seconds)
 3. Review the risk score and AI insights
 4. Check the parameter breakdown
+5. Refresh the results page – data is loaded from the stored JSON via `/api/analysis/{upload_id}`
 
 ---
 

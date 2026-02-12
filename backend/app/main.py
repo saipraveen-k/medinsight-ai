@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 import uuid
 from typing import Optional
+import json
+import time
 
 from app.services.pdf_processor import PDFProcessor
 from app.services.medical_analyzer import MedicalAnalyzer
@@ -54,7 +56,10 @@ async def health_check():
     return {"status": "healthy", "service": "MedInsight AI"}
 
 @app.post("/api/upload", response_model=UploadResponse)
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(
+    file: UploadFile = File(...),
+    api_key: Optional[str] = Header(default=None, alias="x-api-key"),
+):
     """
     Upload and process a medical report PDF
     """
@@ -69,12 +74,20 @@ async def upload_file(file: UploadFile = File(...)):
     try:
         with open(file_path, "wb") as buffer:
             content = await file.read()
+
+            # Enforce 10MB max size for hackathon demo stability
+            max_size_bytes = 10 * 1024 * 1024
+            if len(content) > max_size_bytes:
+                raise HTTPException(status_code=400, detail="File too large (max 10MB)")
+
             buffer.write(content)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
     
-    # Start processing (async)
+    # Start processing (sync for MVP)
     try:
+        start_time = time.time()
+
         # Extract text from PDF
         text_content = pdf_processor.extract_text(file_path)
         
@@ -85,7 +98,12 @@ async def upload_file(file: UploadFile = File(...)):
         risk_score = risk_scorer.calculate_risk_score(medical_data)
         
         # Generate AI insights
-        ai_insights = await ai_service.generate_insights(medical_data, risk_score)
+        ai_insights = await ai_service.generate_insights(
+            medical_data=medical_data,
+            risk_score=risk_score,
+            api_key_override=api_key,
+        )
+        processing_time = time.time() - start_time
         
         # Prepare response
         response = AnalysisResponse(
@@ -94,8 +112,18 @@ async def upload_file(file: UploadFile = File(...)):
             medical_data=medical_data,
             risk_score=risk_score,
             ai_insights=ai_insights,
-            status="completed"
+            status="completed",
+            processing_time=processing_time,
         )
+
+        # Persist analysis for demo-stable retrieval
+        try:
+            analysis_path = PROCESSED_DIR / f"{upload_id}.json"
+            with open(analysis_path, "w", encoding="utf-8") as f:
+                json.dump(response.model_dump(), f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            # Do not fail the request if persistence fails; just log in real setup
+            pass
         
         return UploadResponse(
             upload_id=upload_id,
@@ -109,32 +137,21 @@ async def upload_file(file: UploadFile = File(...)):
 @app.get("/api/analysis/{upload_id}")
 async def get_analysis(upload_id: str):
     """
-    Retrieve analysis results for a specific upload
+    Retrieve analysis results for a specific upload.
+
+    For the hackathon MVP, results are stored as JSON files in storage/processed.
     """
-    # In a real implementation, you would fetch from database
-    # For MVP, return mock data or check if file exists
-    file_path = UPLOAD_DIR / f"{upload_id}_*.pdf"
-    
-    if not any(UPLOAD_DIR.glob(f"{upload_id}_*.pdf")):
+    analysis_path = PROCESSED_DIR / f"{upload_id}.json"
+
+    if not analysis_path.exists():
         raise HTTPException(status_code=404, detail="Analysis not found")
-    
-    # Mock response for now - in real implementation, fetch from database
-    return {
-        "upload_id": upload_id,
-        "status": "completed",
-        "medical_data": {
-            "parameters": [
-                {"name": "Glucose", "value": 95, "unit": "mg/dL", "category": "metabolic"},
-                {"name": "Cholesterol", "value": 210, "unit": "mg/dL", "category": "metabolic"}
-            ]
-        },
-        "risk_score": 35,
-        "risk_level": "medium",
-        "ai_insights": {
-            "summary": "Your results show mostly normal values with slight elevation in cholesterol.",
-            "recommendations": ["Consider dietary changes", "Regular exercise recommended"]
-        }
-    }
+
+    try:
+        with open(analysis_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load analysis: {str(e)}")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

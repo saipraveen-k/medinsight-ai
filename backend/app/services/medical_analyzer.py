@@ -5,10 +5,16 @@ from app.models.medical import MedicalParameter, MedicalData, ParameterCategory
 class MedicalAnalyzer:
     def __init__(self):
         self.reference_ranges = {
-            # Metabolic parameters
+            # Metabolic / glucose health
             'glucose': {'min': 70, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
             'fasting glucose': {'min': 70, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
+            'fasting blood glucose': {'min': 70, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
             'blood sugar': {'min': 70, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
+            'fbs': {'min': 70, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
+            'hba1c': {'min': 4.0, 'max': 5.6, 'unit': '%', 'category': ParameterCategory.METABOLIC},
+
+            # Lipid profile / heart risk
+            'total cholesterol': {'min': 0, 'max': 200, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
             'cholesterol': {'min': 0, 'max': 200, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
             'ldl': {'min': 0, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
             'hdl': {'min': 40, 'max': 100, 'unit': 'mg/dL', 'category': ParameterCategory.METABOLIC},
@@ -25,10 +31,12 @@ class MedicalAnalyzer:
             'wbc': {'min': 4000, 'max': 11000, 'unit': 'cells/μL', 'category': ParameterCategory.HEMATOLOGICAL},
             'rbc': {'min': 4.2, 'max': 5.4, 'unit': 'million/μL', 'category': ParameterCategory.HEMATOLOGICAL},
             'platelets': {'min': 150000, 'max': 450000, 'unit': 'cells/μL', 'category': ParameterCategory.HEMATOLOGICAL},
+            'hematocrit': {'min': 36, 'max': 46, 'unit': '%', 'category': ParameterCategory.HEMATOLOGICAL},
             
             # Renal parameters
             'creatinine': {'min': 0.6, 'max': 1.3, 'unit': 'mg/dL', 'category': ParameterCategory.RENAL},
             'bun': {'min': 7, 'max': 20, 'unit': 'mg/dL', 'category': ParameterCategory.RENAL},
+            'urea': {'min': 15, 'max': 40, 'unit': 'mg/dL', 'category': ParameterCategory.RENAL},
             
             # Electrolytes
             'sodium': {'min': 135, 'max': 145, 'unit': 'mmol/L', 'category': ParameterCategory.ELECTROLYTES},
@@ -37,6 +45,7 @@ class MedicalAnalyzer:
             
             # Hepatic parameters
             'alt': {'min': 0, 'max': 40, 'unit': 'U/L', 'category': ParameterCategory.HEPATIC},
+            'sgpt': {'min': 0, 'max': 40, 'unit': 'U/L', 'category': ParameterCategory.HEPATIC},
             'ast': {'min': 0, 'max': 40, 'unit': 'U/L', 'category': ParameterCategory.HEPATIC},
             'alkaline phosphatase': {'min': 30, 'max': 120, 'unit': 'U/L', 'category': ParameterCategory.HEPATIC},
         }
@@ -106,10 +115,16 @@ class MedicalAnalyzer:
                     **param_data
                 }
         
-        # Fallback: try to identify by keywords
+        # Fallback: try to identify by keywords (grouping similar markers)
+        if any(keyword in name_lower for keyword in ['hba1c', 'glycated']):
+            return self.reference_ranges['hba1c']
+        if any(keyword in name_lower for keyword in ['fasting blood glucose', 'fbs']):
+            return self.reference_ranges['fasting blood glucose']
         if any(keyword in name_lower for keyword in ['glucose', 'sugar']):
             return self.reference_ranges['glucose']
-        elif any(keyword in name_lower for keyword in ['cholesterol', 'ldl', 'hdl']):
+        elif any(keyword in name_lower for keyword in ['total cholesterol']):
+            return self.reference_ranges['total cholesterol']
+        elif any(keyword in name_lower for keyword in ['cholesterol', 'ldl', 'hdl', 'triglyceride']):
             return self.reference_ranges['cholesterol']
         elif any(keyword in name_lower for keyword in ['hemoglobin', 'hgb']):
             return self.reference_ranges['hemoglobin']

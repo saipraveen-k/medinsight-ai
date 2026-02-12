@@ -115,14 +115,14 @@ class RiskScorer:
         """
         Determine risk level based on overall score
         """
-        if score <= 25:
+        # Hackathon-friendly thresholds:
+        # 0–33: low, 34–66: medium, 67–100: high
+        if score <= 33:
             return RiskLevel.LOW
-        elif score <= 50:
+        elif score <= 66:
             return RiskLevel.MEDIUM
-        elif score <= 75:
-            return RiskLevel.HIGH
         else:
-            return RiskLevel.CRITICAL
+            return RiskLevel.HIGH
     
     def get_risk_factors(self, medical_data: MedicalData) -> List[str]:
         """

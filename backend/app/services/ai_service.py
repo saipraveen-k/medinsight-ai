@@ -1,5 +1,6 @@
 import os
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
+
 from app.models.medical import MedicalData, RiskScore, AIInsights, RiskLevel
 import openai
 from dotenv import load_dotenv
@@ -8,7 +9,9 @@ load_dotenv()
 
 class AIService:
     def __init__(self):
-        self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        # Default providers from environment; can be overridden per request via header.
+        self.default_openai_key = os.getenv("OPENAI_API_KEY")
+        self.default_gemini_key = os.getenv("GEMINI_API_KEY")
         
         # System prompts for different stages
         self.extraction_prompt = """
@@ -54,7 +57,12 @@ class AIService:
         Be concise and medically accurate.
         """
     
-    async def generate_insights(self, medical_data: MedicalData, risk_score: RiskScore) -> AIInsights:
+    async def generate_insights(
+        self,
+        medical_data: MedicalData,
+        risk_score: RiskScore,
+        api_key_override: Optional[str] = None,
+    ) -> AIInsights:
         """
         Generate AI-powered insights from medical data
         """
@@ -63,7 +71,10 @@ class AIService:
             medical_summary = self._prepare_medical_summary(medical_data, risk_score)
             
             # Generate patient-friendly explanation
-            explanation = await self._generate_patient_explanation(medical_summary)
+            explanation = await self._generate_patient_explanation(
+                medical_summary,
+                api_key_override=api_key_override,
+            )
             
             # Generate clinical insights
             clinical_insights = await self._generate_clinical_insights(medical_summary)
@@ -106,12 +117,23 @@ class AIService:
         
         return summary
     
-    async def _generate_patient_explanation(self, medical_summary: str) -> Dict[str, str]:
+    async def _generate_patient_explanation(
+        self,
+        medical_summary: str,
+        api_key_override: Optional[str] = None,
+    ) -> Dict[str, str]:
         """
         Generate patient-friendly explanation using AI
         """
         try:
-            response = self.client.chat.completions.create(
+            # Choose API key: UI override takes precedence, then backend env.
+            api_key = api_key_override or self.default_openai_key
+            if not api_key:
+                raise RuntimeError("No OpenAI API key configured")
+
+            client = openai.OpenAI(api_key=api_key)
+
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": self.explanation_prompt},
@@ -128,7 +150,7 @@ class AIService:
                 "summary": explanation_text
             }
             
-        except Exception as e:
+        except Exception:
             return {
                 "summary": "Your medical results have been analyzed. Please review the detailed findings below and consult with your healthcare provider for personalized advice."
             }
