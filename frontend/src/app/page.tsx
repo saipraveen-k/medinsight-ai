@@ -1,364 +1,254 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
+import {
+  Upload,
+  FileText,
+  TrendingUp,
+  Heart,
+  ShieldCheck,
+  Lock,
+} from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Upload, FileText, TrendingUp, Heart, ShieldCheck, Lock } from 'lucide-react'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import Link from 'next/link'
 
 export default function Home() {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="bg-gradient-to-br from-sky-500/25 via-[#BBDEF0]/35 to-indigo-900/80">
-      {/* Header */}
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/60 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#BBDEF0] shadow-sm shadow-sky-400/40">
-              <Heart className="h-5 w-5 text-sky-900" />
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden transition-colors duration-300">
+
+      {/* ================= BACKGROUND WRAPPER ================= */}
+      <div className="bg-gradient-to-br from-primary/10 via-background to-accent/5">
+
+        {/* ================= HEADER ================= */}
+        <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
+          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/40">
+                <Heart className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm font-semibold tracking-wide">
+                  MedInsight AI
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Clinical decision-support tool
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-wide text-sky-50">
-                MedInsight AI
-              </span>
-              <span className="text-xs text-slate-400">
-                Clinical decision-support tool
-              </span>
-            </div>
+
+            <nav className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
+                <ShieldCheck className="h-3 w-3" />
+                Not a diagnosis tool
+              </div>
+
+              <ThemeToggle />
+
+              <Link href="/upload">
+                <Button className="bg-primary text-primary-foreground shadow-lg shadow-primary/40 hover:bg-primary/90 transition-all duration-300">
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Report
+                </Button>
+              </Link>
+            </nav>
           </div>
-          <nav className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
-              <ShieldCheck className="h-3 w-3" />
-              Clinical decision-support • Not a diagnosis tool
-            </div>
-            <Link href="/upload">
-              <Button className="bg-sky-500 text-white shadow-lg shadow-sky-500/40 hover:bg-sky-400 transition-all duration-300 hover:shadow-sky-400/60">
-                <Upload className="mr-2 h-4 w-4" />
-                Upload Report
-              </Button>
-            </Link>
-          </nav>
-        </div>
-      </header>
+        </header>
 
-      {/* Hero + Preview */}
-      <main className="mx-auto flex max-w-7xl flex-col gap-10 px-4 pb-16 pt-10 sm:px-6 lg:flex-row lg:items-center lg:px-8 lg:pt-16">
-        {/* Left column: copy & CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex-1 space-y-6"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-sky-200 shadow-sm ring-1 ring-sky-500/40">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            Safer, explainable AI for lab reports
-          </div>
+        {/* ================= HERO SECTION ================= */}
+        <section className="mx-auto max-w-7xl px-6 pt-16 pb-24">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
 
-          <h1 className="text-balance text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
-            Turn confusing{" "}
-            <span className="bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">
-              medical PDFs
-            </span>{" "}
-            into clear insights.
-          </h1>
+            {/* LEFT CONTENT */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-xs font-medium text-primary ring-1 ring-primary/40">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                Safer, Explainable AI for Lab Reports
+              </div>
 
-          <p className="max-w-xl text-base text-slate-300 sm:text-lg">
-            Upload a lab report PDF and get instant AI-powered extraction of key
-            parameters, explainable risk scoring on a 0–100 scale, and
-            patient‑friendly guidance you can take to your doctor.
-          </p>
+              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl xl:text-6xl">
+                Transform confusing{" "}
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  medical PDFs
+                </span>{" "}
+                into clear, actionable insights.
+              </h1>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <Link href="/upload">
-              <Button
-                size="lg"
-                className="bg-sky-500 px-6 text-white shadow-lg shadow-sky-400/60 hover:bg-sky-400"
-              >
-                <Upload className="mr-2 h-5 w-5" />
-                Analyze a Report
-              </Button>
-            </Link>
-            <span className="text-xs text-slate-400 sm:text-sm">
-              No signup • Runs locally for this demo • PDF only (max 10MB)
-            </span>
-          </div>
-
-          <div className="grid gap-4 text-sm text-slate-200 sm:grid-cols-3">
-            <div className="rounded-xl bg-slate-900/70 p-4 shadow-sm ring-1 ring-sky-500/30">
-              <p className="text-2xl font-semibold text-sky-200">CBC & Metabolic</p>
-              <p className="mt-1 text-xs text-slate-300">
-                Hemoglobin, WBC, RBC, platelets, glucose, HbA1c and more.
+              <p className="max-w-xl text-lg text-muted-foreground">
+                Instantly extract key lab parameters, calculate explainable risk
+                scores, and receive AI-generated guidance you can confidently
+                discuss with your doctor.
               </p>
-            </div>
-            <div className="rounded-xl bg-slate-900/70 p-4 shadow-sm ring-1 ring-emerald-500/30">
-              <p className="text-2xl font-semibold text-emerald-200">Heart & Kidney</p>
-              <p className="mt-1 text-xs text-slate-300">
-                Lipid profile, creatinine, urea with grouped risk insights.
-              </p>
-            </div>
-            <div className="rounded-xl bg-slate-900/70 p-4 shadow-sm ring-1 ring-indigo-500/30">
-              <p className="text-2xl font-semibold text-indigo-200">Explainable AI</p>
-              <p className="mt-1 text-xs text-slate-300">
-                Clear narrative, not diagnosis. Always with medical disclaimers.
-              </p>
-            </div>
-          </div>
-        </motion.div>
 
-        {/* Right column: dashboard-style preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-6 flex flex-1 justify-center lg:mt-0"
-        >
-          <div className="relative w-full max-w-md">
-            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-sky-500/40 via-cyan-400/20 to-indigo-500/60 blur-2xl" />
-            <Card className="relative overflow-hidden rounded-3xl border border-sky-100/40 bg-slate-950/80 shadow-2xl backdrop-blur">
-              <CardHeader className="border-b border-slate-800/60 pb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-sm font-semibold text-slate-50">
-                      Sample Health Overview
-                    </CardTitle>
-                    <CardDescription className="text-xs text-slate-400">
-                      Auto-generated from a single PDF lab report
-                    </CardDescription>
-                  </div>
-                  <div className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-300 ring-1 ring-emerald-400/40">
-                    Low risk
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4 pt-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                      Health Score
-                    </span>
-                    <span className="text-4xl font-semibold text-slate-50">
-                      18<span className="text-base text-slate-500">/100</span>
-                    </span>
-                    <span className="mt-1 text-xs text-slate-400">
-                      Calculated via weighted abnormalities across all panels.
-                    </span>
-                  </div>
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400/20 via-sky-500/10 to-indigo-500/40 shadow-inner shadow-sky-500/40">
-                    <div className="text-center">
-                      <span className="text-xs font-semibold text-emerald-200">
-                        Mostly
+              <div className="flex items-center gap-4">
+                <Link href="/upload">
+                  <Button size="lg" className="bg-primary px-6 text-primary-foreground shadow-lg shadow-primary/50 hover:bg-primary/90">
+                    <Upload className="mr-2 h-5 w-5" />
+                    Analyze Report
+                  </Button>
+                </Link>
+
+                <span className="text-sm text-muted-foreground">
+                  No signup • PDF only • Demo mode
+                </span>
+              </div>
+            </motion.div>
+
+            {/* RIGHT DASHBOARD PREVIEW */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7 }}
+              className="flex justify-center lg:justify-end"
+            >
+              <div className="relative w-full max-w-xl">
+                <div className="absolute -inset-6 rounded-3xl bg-gradient-to-tr from-primary/30 via-accent/20 to-primary/50 blur-3xl animate-pulse-glow" />
+
+                <Card className="relative rounded-3xl border border-border bg-card/90 shadow-2xl backdrop-blur-xl">
+                  <CardHeader className="border-b border-border">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-sm">
+                          Sample Health Overview
+                        </CardTitle>
+                        <CardDescription className="text-xs text-muted-foreground">
+                          Generated from uploaded PDF
+                        </CardDescription>
+                      </div>
+                      <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-400/40">
+                        Low Risk
                       </span>
-                      <div className="text-sm font-semibold text-emerald-200">
-                        within range
+                    </div>
+                  </CardHeader>
+
+                  <CardContent className="space-y-6 pt-6">
+
+                    {/* Score Row */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                          Health Score
+                        </p>
+                        <div className="text-5xl font-semibold">
+                          18<span className="text-lg text-muted-foreground">/100</span>
+                        </div>
+                      </div>
+
+                      <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400/20 via-primary/10 to-accent/40">
+                        <div className="text-center text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
+                          Mostly <br /> within range
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="rounded-lg border border-emerald-400/40 bg-emerald-500/15 p-3">
-                    <p className="text-[11px] font-semibold text-emerald-200">
-                      🩸 Blood Health
-                    </p>
-                    <p className="mt-1 text-[11px] text-emerald-100">
-                      Hb, WBC, RBC, platelets all within reference ranges.
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-amber-400/40 bg-amber-500/15 p-3">
-                    <p className="text-[11px] font-semibold text-amber-100">
-                      🍬 Glucose Health
-                    </p>
-                    <p className="mt-1 text-[11px] text-amber-50">
-                      Fasting glucose slightly elevated; HbA1c at the upper edge.
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-sky-400/40 bg-sky-500/15 p-3">
-                    <p className="text-[11px] font-semibold text-sky-100">
-                      ❤️ Heart Risk
-                    </p>
-                    <p className="mt-1 text-[11px] text-sky-50">
-                      LDL mildly high; HDL protective. Lifestyle focus recommended.
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-indigo-400/40 bg-indigo-500/15 p-3">
-                    <p className="text-[11px] font-semibold text-indigo-100">
-                      🧪 Kidney & Liver
-                    </p>
-                    <p className="mt-1 text-[11px] text-indigo-50">
-                      Creatinine, urea and ALT within normal limits.
-                    </p>
-                  </div>
-                </div>
+                    {/* Mini Risk Panels */}
+                    <div className="grid grid-cols-2 gap-4 text-xs">
+                      {[
+                        "Blood Health",
+                        "Glucose Panel",
+                        "Cardiac Risk",
+                        "Kidney & Liver",
+                      ].map((item, i) => (
+                        <div
+                          key={i}
+                          className="rounded-lg border border-border bg-card/80 p-3 overflow-hidden"
+                        >
+                          <p className="font-semibold text-primary truncate">{item}</p>
+                          <p className="mt-1 text-muted-foreground text-overflow-break">
+                            Within reference range.
+                          </p>
+                        </div>
+                      ))}
+                    </div>
 
-                <div className="rounded-lg bg-slate-900/80 p-3 text-[11px] text-slate-300 ring-1 ring-slate-700/80">
-                  <span className="font-semibold text-slate-50">AI summary · </span>
-                  Most results look reassuring. A few values are slightly outside
-                  the ideal range; discuss these trends and lifestyle changes with
-                  your clinician rather than making decisions on your own.
-                </div>
-              </CardContent>
-            </Card>
+                    <div className="rounded-lg bg-card/90 p-3 text-xs text-muted-foreground ring-1 ring-border">
+                      <span className="font-semibold text-foreground">
+                        AI Summary ·
+                      </span>{" "}
+                      Overall reassuring results. Minor elevations should be
+                      reviewed with your clinician.
+                    </div>
+
+                  </CardContent>
+                </Card>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </section>
 
-        {/* 3-Step Process Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-50 mb-4">
-              How It Works
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Get AI-powered medical insights in three simple steps
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                step: 1,
-                title: "Upload PDF",
-                description: "Upload your medical report PDF (max 10MB)",
-                icon: <Upload className="h-6 w-6" />
-              },
-              {
-                step: 2,
-                title: "AI Analysis",
-                description: "AI extracts key parameters and calculates risk scores",
-                icon: <TrendingUp className="h-6 w-6" />
-              },
-              {
-                step: 3,
-                title: "Get Insights",
-                description: "Receive comprehensive analysis and recommendations",
-                icon: <FileText className="h-6 w-6" />
-              }
-            ].map((item, index) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group"
-              >
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur" />
-                <div className="relative bg-slate-900/80 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 mb-4 mx-auto">
-                    {item.icon}
-                  </div>
-                  <div className="text-2xl font-bold text-cyan-400 mb-2">
-                    {item.step}
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-100 mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    {item.description}
+        {/* ================= HOW IT WORKS ================= */}
+        <section className="py-24">
+          <div className="mx-auto max-w-7xl px-6 text-center">
+            <h2 className="text-3xl font-bold mb-6">How It Works</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12">
+              {[
+                { icon: Upload, title: "Upload PDF" },
+                { icon: TrendingUp, title: "AI Analysis" },
+                { icon: FileText, title: "Get Insights" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="rounded-2xl border border-border bg-card/80 p-8 overflow-hidden"
+                >
+                  <item.icon className="mx-auto mb-4 h-6 w-6 text-primary" />
+                  <h3 className="font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground text-overflow-break">
+                    AI-powered medical understanding in seconds.
                   </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Comparison Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-20"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-50 mb-4">
-              From Confusion to Clarity
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Transform complex medical reports into actionable insights
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm"
-            >
-              <h3 className="text-xl font-semibold text-red-400 mb-4">
-                📄 Raw Medical Report
-              </h3>
-              <div className="space-y-3 text-sm text-slate-400">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-red-400" />
-                  <span>Confusing medical terminology</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-red-400" />
-                  <span>Hard to identify abnormal values</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-red-400" />
-                  <span>No context or prioritization</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-red-400" />
-                  <span>Time-consuming to understand</span>
-                </div>
-              </div>
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm"
-            >
-              <h3 className="text-xl font-semibold text-cyan-400 mb-4">
-                🎯 AI-Powered Dashboard
-              </h3>
-              <div className="space-y-3 text-sm text-slate-300">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>Clear risk scoring (0-100)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>Category-based insights</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>Prioritized abnormal findings</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>Actionable recommendations</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/90 py-8 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Lock className="h-3 w-3" />
-              <span>Processed securely. No permanent storage.</span>
+                </motion.div>
+              ))}
             </div>
           </div>
-          <p>© 2026 MedInsight AI. All rights reserved made by BIT BROTHERS.</p>
-          <p>
-            Clinical decision-support tool • Not a replacement for professional medical advice
-          </p>
-        </div>
-      </footer>
+        </section>
+
+        {/* ================= COMPARISON SECTION ================= */}
+        <section className="py-24">
+          <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-10">
+            <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-8 overflow-hidden">
+              <h3 className="text-xl font-semibold text-destructive mb-4">
+                Raw Medical Report
+              </h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>• Hard to interpret values</li>
+                <li>• No prioritization</li>
+                <li>• Medical jargon overload</li>
+                <li>• Anxiety-inducing format</li>
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-primary/40 bg-primary/10 p-8 overflow-hidden">
+              <h3 className="text-xl font-semibold text-primary mb-4">
+                AI-Powered Dashboard
+              </h3>
+              <ul className="space-y-3 text-sm text-foreground">
+                <li>• Clear 0–100 risk scoring</li>
+                <li>• Category grouping</li>
+                <li>• Prioritized abnormalities</li>
+                <li>• Actionable guidance</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= FOOTER ================= */}
+        <footer className="border-t border-border py-10 text-center text-xs text-muted-foreground">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Lock className="h-3 w-3" />
+            Processed securely. No permanent storage.
+          </div>
+          © 2026 MedInsight AI • Built by BIT BROTHERS
+        </footer>
+
       </div>
     </div>
   )

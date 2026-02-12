@@ -7,12 +7,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Download, Share2, ShieldCheck, Lock, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { RiskGauge } from '@/components/ui/risk-gauge'
-import { CategoryCards } from '@/components/ui/category-cards'
-import { AIInsights } from '@/components/ui/ai-insights'
-import { MedicalParameters } from '@/components/ui/medical-parameters'
+import { PremiumRiskGauge } from '@/components/ui/premium-risk-gauge'
+import { PremiumCategoryCards } from '@/components/ui/premium-category-cards'
+import { PremiumMedicalParameters } from '@/components/ui/premium-medical-parameters'
+import { PremiumAIInsights } from '@/components/ui/premium-ai-insights'
 import { LoadingStepper } from '@/components/ui/loading-stepper'
-import { ToastContainer } from '@/components/ui/toast'
+import { ToastContainer, Toast } from '@/components/ui/toast'
 
 interface AnalysisResult {
   upload_id: string
@@ -32,7 +32,7 @@ interface AnalysisResult {
   }
   risk_score: {
     score: number
-    level: string
+    level: 'low' | 'medium' | 'high' | 'critical' | string
     category_scores: Record<string, number>
   }
   ai_insights: {
@@ -172,184 +172,122 @@ export default function ResultsPage() {
   }
 
   return (
-    <>
-      <LoadingStepper isLoading={loading} />
-      
-      {!loading && !error && result && (
-        <div className="min-h-screen bg-slate-950 text-slate-50">
-          <div className="bg-gradient-to-br from-sky-500/10 via-slate-950 to-indigo-900/80">
-            {/* Header */}
-            <header className="sticky top-0 z-20 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-md">
-              <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center gap-4">
-                  <Link href="/">
-                    <Button variant="ghost" size="sm" className="text-slate-200 hover:bg-slate-800">
-                      <ArrowLeft className="mr-2 h-4 w-4" />
-                      Back
-                    </Button>
-                  </Link>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20">
-                      <ShieldCheck className="h-4 w-4 text-cyan-400" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-slate-50">Analysis Results</span>
-                      <span className="text-[11px] text-slate-400">
-                        Clinical decision-support tool • ID: {result.upload_id.slice(0, 8)}…
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
-                    <Lock className="h-3 w-3" />
-                    Secure processing
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDownloadReport}
-                    disabled={isDownloading}
-                    className="border-slate-700 bg-slate-900/50 text-slate-100 hover:bg-slate-800 backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isDownloading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download PDF
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-slate-700 bg-slate-900/50 text-slate-100 hover:bg-slate-800 backdrop-blur-sm"
-                  >
-                    <Share2 className="mr-2 h-4 w-4" />
-                    Share
-                  </Button>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden transition-colors duration-300">
+      <div className="bg-gradient-to-br from-primary/10 via-background to-accent/5">
+
+        {/* Header */}
+        <header className="sticky top-0 z-20 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-md">
+          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-4">
+              <Link href="/">
+                <Button variant="ghost" size="sm" className="text-slate-200 hover:bg-slate-800">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back
+                </Button>
+              </Link>
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20">
+                  <ShieldCheck className="h-4 w-4 text-cyan-400" />
                 </div>
               </div>
-            </header>
+            </div>
 
-            {/* Main Content */}
-            <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-12"
+            <div className="flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
+                <Lock className="h-3 w-3" />
+                Secure processing
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownloadReport}
+                disabled={isDownloading}
               >
-                {/* Risk Score Hero */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8 }}
-                  className="text-center"
-                >
-                  <h1 className="text-4xl font-bold text-slate-50 mb-4">
-                    Health Risk Assessment
-                  </h1>
-                  <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-                    Comprehensive analysis across {result.medical_data.total_parameters} medical parameters
-                    with {result.medical_data.abnormal_count} abnormal findings detected
-                  </p>
-                  
-                  <div className="flex justify-center mb-12">
-                    <RiskGauge 
-                      score={result.risk_score.score} 
-                      level={result.risk_score.level}
-                      confidence={85}
-                    />
-                  </div>
-                  
-                  {/* Download Button */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1 }}
-                    className="flex justify-center"
-                  >
-                    <Button
-                      onClick={handleDownloadReport}
-                      disabled={isDownloading}
-                      size="lg"
-                      className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isDownloading ? (
-                        <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                          Generating PDF Report...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="mr-2 h-5 w-5" />
-                          Download Full Report
-                        </>
-                      )}
-                    </Button>
-                  </motion.div>
-                </motion.div>
-
-                {/* Category Summary Blocks */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <h2 className="text-2xl font-bold text-slate-100 mb-6">Risk by Category</h2>
-                  <CategoryCards categoryScores={result.risk_score.category_scores} />
-                </motion.div>
-
-                <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                  {/* Medical Parameters */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    <MedicalParameters parameters={result.medical_data.parameters} />
-                  </motion.div>
-
-                  {/* AI Insights */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                  >
-                    <AIInsights insights={result.ai_insights} />
-                  </motion.div>
-                </div>
-
-                {/* Trust & Footer */}
-                <motion.footer
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  className="border-t border-slate-800/60 pt-8"
-                >
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                    <div className="flex items-center gap-2">
-                      <Lock className="h-3 w-3" />
-                      <span>Processed securely. No permanent storage.</span>
-                    </div>
-                    <div>
-                      This is a clinical decision-support tool and does not replace professional medical advice.
-                    </div>
-                  </div>
-                </motion.footer>
-              </motion.div>
-            </main>
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download PDF
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-      
-      {/* Toast Container */}
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
-    </>
+        </header>
+
+        {/* Main Content */}
+        <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* Left Column: Risk Gauge */}
+            <div className="lg:col-span-1">
+              <Card className="border-slate-800 bg-slate-950/50">
+                <CardHeader>
+                  <CardTitle className="text-slate-200">Overall Risk Assessment</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Based on your medical parameters
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <PremiumRiskGauge 
+                    score={result.risk_score.score} 
+                    level={result.risk_score.level as 'low' | 'medium' | 'high' | 'critical'} 
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right Column: Category Cards and Parameters */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Category Cards */}
+              <Card className="border-slate-800 bg-slate-950/50">
+                <CardHeader>
+                  <CardTitle className="text-slate-200">Health Categories</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Risk scores by category
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <PremiumCategoryCards categoryScores={result.risk_score.category_scores} />
+                </CardContent>
+              </Card>
+
+              {/* Medical Parameters */}
+              <Card className="border-slate-800 bg-slate-950/50">
+                <CardHeader>
+                  <CardTitle className="text-slate-200">Medical Parameters</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    {result.medical_data.abnormal_count} of {result.medical_data.total_parameters} parameters are outside normal range
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <PremiumMedicalParameters parameters={result.medical_data.parameters} />
+                </CardContent>
+              </Card>
+
+              {/* AI Insights */}
+              <Card className="border-slate-800 bg-slate-950/50">
+                <CardHeader>
+                  <CardTitle className="text-slate-200">AI-Powered Insights</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Generated by advanced medical AI analysis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <PremiumAIInsights insights={result.ai_insights} />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </main>
+
+        {/* Toast Container */}
+        <ToastContainer toasts={toasts} onRemove={removeToast} />
+      </div>
+    </div>
   )
 }

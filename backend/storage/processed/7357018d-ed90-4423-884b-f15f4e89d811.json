@@ -1,0 +1,354 @@
+{
+  "upload_id": "7357018d-ed90-4423-884b-f15f4e89d811",
+  "filename": "38cb67b6-8689-4943-8985-92f4639dad8b_5e2f4a09-3cbc-4eba-9dab-553f20f3755d_sample_comprehensive_metabolic_panel_report.pdf",
+  "medical_data": {
+    "parameters": [
+      {
+        "name": "glucose",
+        "value": 110.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 70.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": false
+      },
+      {
+        "name": "glucose",
+        "value": 100.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": false
+      },
+      {
+        "name": "glucose",
+        "value": 9.2,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 8.5,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 10.5,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 138.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 135.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 145.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 5.4,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 3.5,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 5.1,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 22.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 7.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 20.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 1.4,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 0.6,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 1.2,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 4.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 3.4,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 5.4,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 8.3,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 48.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 10.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 40.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 65.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 7.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 56.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "alkaline phosphatase",
+        "value": 130.0,
+        "unit": "U/L",
+        "category": "hepatic",
+        "normal_min": 30.0,
+        "normal_max": 120.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 44.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 147.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      }
+    ],
+    "total_parameters": 32,
+    "abnormal_count": 30
+  },
+  "risk_score": {
+    "score": 21,
+    "level": "low",
+    "category_scores": {
+      "cardiac": 0.0,
+      "metabolic": 100.0,
+      "renal": 0.0,
+      "hepatic": 8.333333333333332,
+      "hematological": 0.0,
+      "electrolytes": 0.0
+    }
+  },
+  "ai_insights": {
+    "summary": "AI explanation unavailable. Review abnormal findings below and consult a healthcare provider.",
+    "abnormal_findings": [
+      "Glucose: 110.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 9.2 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 8.5 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 10.5 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 138.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 135.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 145.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 5.4 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 3.5 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 5.1 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 22.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 7.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 20.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 1.4 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 0.6 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 1.2 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 4.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 3.4 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 5.4 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 8.3 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 48.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 10.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 40.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 65.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 7.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 56.0 mg/dL (Normal: 70.0-100.0)",
+      "Alkaline Phosphatase: 130.0 U/L (Normal: 30.0-120.0)",
+      "Glucose: 44.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 147.0 mg/dL (Normal: 70.0-100.0)"
+    ],
+    "recommendations": [
+      "Maintain healthy lifestyle habits.",
+      "Focus on blood sugar and cholesterol control.",
+      "Limit alcohol and monitor liver enzymes."
+    ],
+    "when_to_consult_doctor": "Continue regular health monitoring.",
+    "disclaimer": "This AI-generated analysis is for informational purposes only and does not replace professional medical advice."
+  },
+  "status": "completed",
+  "processing_time": 0.9003117084503174
+}
