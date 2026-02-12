@@ -179,29 +179,30 @@ class PDFGenerator:
         # Risk score display
         score_color = self._get_risk_level_color(level.lower())
         
-        score_table = Table([
-            [
-                Paragraph(str(score), self.styles['RiskScore'])
-            ],
-            [
-                Paragraph(level, ParagraphStyle(
-                    name='DynamicRiskLevel',
-                    parent=self.styles['RiskLevel'],
-                    textColor=score_color,
-                    fontSize=16,
-                    spaceAfter=20
-                ))
-            ]
-        ], colWidths=[6*inch])
-        
-        score_table.setStyle(TableStyle([
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ]))
-        
-        elements.append(score_table)
+        # Risk score display
+        elements.append(Paragraph(str(score), ParagraphStyle(
+            name='BigScore',
+            parent=self.styles['Normal'],
+            fontSize=48,
+            textColor=colors.darkblue,
+            alignment=TA_CENTER,
+            spaceAfter=10
+        )))
+
+        elements.append(Spacer(1, 0.35 * inch))
+
+        # Risk Level
+        elements.append(Paragraph(
+            level,
+            ParagraphStyle(
+                name='DynamicRiskLevel',
+                parent=self.styles['Normal'],
+                fontSize=20,
+                textColor=score_color,
+                alignment=TA_CENTER,
+                spaceAfter=25
+            )
+        ))
         
         # Summary stats
         medical_data = data.get('medical_data', {})
