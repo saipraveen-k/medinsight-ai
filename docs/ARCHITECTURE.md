@@ -59,22 +59,28 @@ Frontend polls API → Database query → Results formatting → UI display
 
 ## 🏛️ Component Architecture
 
-### Frontend Components
+### Frontend Components 🆕
 
 ```
 C:\tempp\projects\medinsight-ai\frontend\src\
 ├── app/
-│   ├── page.tsx              # Landing page
-│   ├── upload/page.tsx       # Upload interface
-│   └── results/[id]/page.tsx # Results dashboard
+│   ├── page.tsx              # Landing page with premium design
+│   ├── upload/page.tsx       # Upload interface with step indicators
+│   └── results/[id]/page.tsx # Results dashboard with premium components
 ├── components/
 │   ├── ui/                   # shadcn/ui base components
+│   │   ├── risk-gauge.tsx      # 🆕 Animated radial progress indicator
+│   │   ├── category-cards.tsx   # 🆕 Interactive risk category display
+│   │   ├── ai-insights.tsx      # 🆕 Structured accordion panels
+│   │   ├── medical-parameters.tsx # 🆕 Grouped parameter display
+│   │   ├── loading-stepper.tsx # 🆕 Step-based progress indicator
+│   │   └── toast.tsx           # 🆕 Modern notification system
 │   ├── upload/               # Upload-specific components
 │   ├── results/              # Results display components
 │   └── common/               # Shared utilities
 ├── lib/
 │   ├── api.ts                # API client
-│   └── utils.ts              # Helper functions
+│   └── utils.ts              # 🆕 Helper functions with risk color mapping
 └── hooks/
     ├── use-upload.ts         # Upload state management
     └── use-analysis.ts       # Analysis data fetching
@@ -89,7 +95,8 @@ C:\tempp\projects\medinsight-ai\backend\app\
 │   ├── pdf_processor.py      # PDF text extraction
 │   ├── medical_analyzer.py   # Medical parameter analysis
 │   ├── risk_scorer.py        # Risk calculation algorithm
-│   └── ai_service.py         # LLM integration
+│   ├── ai_service.py         # LLM integration
+│   └── pdf_generator.py      # 🆕 Professional PDF report generation
 ├── models/
 │   └── medical.py            # Pydantic data models
 ├── database/
@@ -211,16 +218,24 @@ severity_multipliers = {
 
 ## 🔧 Technology Stack Architecture
 
-### Frontend Stack
+### Frontend Stack 🆕
 ```
 C:\tempp\projects\medinsight-ai\frontend\
 Next.js 14 (React 18)
 ├── Tailwind CSS (Styling)
 ├── shadcn/ui (Component library)
-├── Framer Motion (Animations)
+├── 🆕 Framer Motion (Animations & micro-interactions)
 ├── Recharts (Data visualization)
 ├── React Dropzone (File upload)
-└── Lucide React (Icons)
+├── Lucide React (Icons)
+├── 🆕 Custom Premium Components:
+│   ├── RiskGauge (Animated radial progress)
+│   ├── CategoryCards (Interactive risk display)
+│   ├── AIInsights (Structured accordion panels)
+│   ├── MedicalParameters (Grouped display)
+│   ├── LoadingStepper (Step-based progress)
+│   └── ToastContainer (Modern notifications)
+└── TypeScript (Type safety)
 ```
 
 ### Backend Stack
@@ -232,7 +247,65 @@ FastAPI (Python 3.9+)
 ├── LangChain (LLM orchestration)
 ├── OpenAI/Gemini (AI models)
 ├── SQLite (Database)
-└── Pydantic (Data validation)
+├── Pydantic (Data validation)
+├── 🆕 ReportLab (Professional PDF generation)
+├── 🆕 Pillow (Image processing for PDF)
+└── Uvicorn (ASGI server)
+```
+
+## 🆕 Premium Component Architecture
+
+### Risk Visualization System
+```
+RiskGauge Component:
+├── Animated SVG radial progress
+├── Color-coded risk levels (Green/Yellow/Red)
+├── AI confidence indicators
+├── Smooth fill animations (1.5s duration)
+└── Responsive design with Framer Motion
+
+CategoryCards Component:
+├── Interactive risk category display
+├── Progress bars with gradient fills
+├── Hover effects with glow animations
+├── Icon-based categorization
+└── Staggered animation on load
+```
+
+### AI Insights System
+```
+AIInsights Component:
+├── Structured accordion panels
+├── Collapsible sections (Summary/Clinical/Recommendations)
+├── Icon indicators for each section
+├── Glass blur background effects
+└── Custom bullet point styling
+```
+
+### Medical Data Display
+```
+MedicalParameters Component:
+├── Category-based parameter grouping
+├── Duplicate parameter handling (Min/Max/Avg)
+├── Status indicators (Normal/Abnormal)
+├── Expandable category sections
+└── Reference range display
+```
+
+### PDF Export System 🆕
+```
+PDFGenerator Service:
+├── ReportLab integration for professional PDFs
+├── Hospital-grade document styling
+├── Structured report sections:
+│   ├── Professional header with branding
+│   ├── Health score visualization
+│   ├── Category breakdown tables
+│   ├── Abnormal findings lists
+│   ├── AI insights and recommendations
+│   └── Medical disclaimer
+├── Proper margins and typography
+└── Streaming response for downloads
 ```
 
 ### Infrastructure Stack

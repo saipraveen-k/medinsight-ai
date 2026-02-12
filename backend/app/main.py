@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 import uvicorn
 import os
 from pathlib import Path
@@ -8,11 +8,14 @@ import uuid
 from typing import Optional
 import json
 import time
+import io
+from datetime import datetime
 
 from app.services.pdf_processor import PDFProcessor
 from app.services.medical_analyzer import MedicalAnalyzer
 from app.services.risk_scorer import RiskScorer
 from app.services.ai_service import AIService
+from app.services.pdf_generator import PDFGenerator
 from app.models.medical import AnalysisResponse, UploadResponse
 from app.database.connection import init_db
 
@@ -36,6 +39,7 @@ pdf_processor = PDFProcessor()
 medical_analyzer = MedicalAnalyzer()
 risk_scorer = RiskScorer()
 ai_service = AIService()
+pdf_generator = PDFGenerator()
 
 # Storage directories
 UPLOAD_DIR = Path("storage/uploads")
@@ -152,6 +156,39 @@ async def get_analysis(upload_id: str):
         return data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to load analysis: {str(e)}")
+
+@app.get("/api/analysis/{upload_id}/download")
+async def download_report(upload_id: str):
+    """
+    Generate and download a PDF report for the analysis.
+    """
+    analysis_path = PROCESSED_DIR / f"{upload_id}.json"
+
+    if not analysis_path.exists():
+        raise HTTPException(status_code=404, detail="Analysis not found")
+
+    try:
+        # Load analysis data
+        with open(analysis_path, "r", encoding="utf-8") as f:
+            analysis_data = json.load(f)
+        
+        # Generate PDF
+        pdf_buffer = pdf_generator.generate_report(analysis_data)
+        
+        # Create filename
+        filename = f"medinsight_report_{upload_id[:8]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+        
+        # Return PDF as streaming response
+        return StreamingResponse(
+            io.BytesIO(pdf_buffer.read()),
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}"
+            }
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate PDF: {str(e)}")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

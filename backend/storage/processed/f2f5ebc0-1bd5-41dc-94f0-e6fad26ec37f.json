@@ -1,0 +1,153 @@
+{
+  "upload_id": "f2f5ebc0-1bd5-41dc-94f0-e6fad26ec37f",
+  "filename": "878e5d6c-9128-49bd-a1a9-a1a11010c2fe_sample_lipid_profile_report.pdf",
+  "medical_data": {
+    "parameters": [
+      {
+        "name": "total cholesterol",
+        "value": 245.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 0.0,
+        "normal_max": 200.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 200.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "cholesterol",
+        "value": 38.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 0.0,
+        "normal_max": 200.0,
+        "is_abnormal": false
+      },
+      {
+        "name": "glucose",
+        "value": 40.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "cholesterol",
+        "value": 170.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 0.0,
+        "normal_max": 200.0,
+        "is_abnormal": false
+      },
+      {
+        "name": "glucose",
+        "value": 130.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 280.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 150.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 56.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 5.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 40.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 5.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      }
+    ],
+    "total_parameters": 12,
+    "abnormal_count": 10
+  },
+  "risk_score": {
+    "score": 20,
+    "level": "low",
+    "category_scores": {
+      "cardiac": 0.0,
+      "metabolic": 100.0,
+      "renal": 0.0,
+      "hepatic": 0.0,
+      "hematological": 0.0,
+      "electrolytes": 0.0
+    }
+  },
+  "ai_insights": {
+    "summary": "AI explanation unavailable. Review abnormal findings below and consult a healthcare provider.",
+    "abnormal_findings": [
+      "Total Cholesterol: 245.0 mg/dL (Normal: 0.0-200.0)",
+      "Glucose: 200.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 40.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 130.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 280.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 150.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 56.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 5.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 40.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 5.0 mg/dL (Normal: 70.0-100.0)"
+    ],
+    "recommendations": [
+      "Maintain healthy lifestyle habits.",
+      "Focus on blood sugar and cholesterol control."
+    ],
+    "when_to_consult_doctor": "Continue regular health monitoring.",
+    "disclaimer": "This AI-generated analysis is for informational purposes only and does not replace professional medical advice."
+  },
+  "status": "completed",
+  "processing_time": 0.8797872066497803
+}

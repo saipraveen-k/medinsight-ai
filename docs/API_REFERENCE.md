@@ -173,7 +173,68 @@ curl http://localhost:8000/api/analysis/uuid-string
 
 ---
 
-### 3. Health Check
+### 4. Download PDF Report 🆕
+
+Generate and download a professional medical report PDF for the analysis.
+
+```http
+GET /api/analysis/{upload_id}/download
+Content-Type: application/pdf
+```
+
+#### Request
+
+**Path Parameters**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| upload_id | string | Yes | Unique identifier from upload response |
+
+**Headers**
+| Header | Type | Required | Description |
+|--------|------|----------|-------------|
+| x-api-key | string | No | OpenAI API key (if not set in backend) |
+
+**Example Request**
+```bash
+# Direct download
+curl http://localhost:8000/api/analysis/uuid-string/download
+
+# With API key
+curl -H "x-api-key: your_openai_key" \
+  http://localhost:8000/api/analysis/uuid-string/download
+```
+
+#### Response
+
+**Success Response (200)**
+- **Content-Type**: `application/pdf`
+- **Content-Disposition**: `attachment; filename=medinsight_report_{id}_{timestamp}.pdf`
+- **Body**: Binary PDF data
+
+**PDF Report Features**
+- 🏥 **Professional Header**: MedInsight AI branding, Report ID, generation date
+- 📊 **Health Score Section**: Large risk score display with color-coded level
+- 📋 **Category Breakdown**: Table showing risk scores by medical category
+- ⚠️ **Abnormal Findings**: Structured list with parameter values and reference ranges
+- 🧠 **AI Summary**: Patient-friendly explanations and recommendations
+- 🔒 **Medical Disclaimer**: Professional legal and safety information
+
+**Error Responses**
+```json
+// 404 Not Found
+{
+  "detail": "Analysis not found"
+}
+
+// 500 Internal Server Error
+{
+  "detail": "Failed to generate PDF: Report generation error"
+}
+```
+
+---
+
+### 5. Health Check
 
 Check API service health and status.
 
@@ -333,7 +394,9 @@ interface AIInsights {
 
 ## 🚀 SDK Examples
 
-### JavaScript/TypeScript
+### SDK Examples
+
+#### JavaScript/TypeScript
 
 ```typescript
 class MedInsightAPI {
@@ -369,12 +432,45 @@ class MedInsightAPI {
 
     return response.json();
   }
+
+  // 🆕 Download PDF Report
+  async downloadReport(uploadId: string, apiKey?: string): Promise<void> {
+    const headers: Record<string, string> = {};
+    if (apiKey) {
+      headers['x-api-key'] = apiKey;
+    }
+
+    const response = await fetch(`${this.baseURL}/api/analysis/${uploadId}/download`, {
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`PDF download failed: ${response.statusText}`);
+    }
+
+    // Get filename from headers or create default
+    const contentDisposition = response.headers.get('content-disposition');
+    const filenameMatch = contentDisposition?.match(/filename="?([^";]+)"?/);
+    const filename = filenameMatch?.[1] || `medinsight_report_${uploadId}.pdf`;
+
+    // Download file
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
 }
 
 // Usage
 const api = new MedInsightAPI();
 const uploadId = await api.uploadReport(file);
 const results = await api.getAnalysis(uploadId);
+await api.downloadReport(uploadId, 'your-api-key'); // 🆕 PDF download
 ```
 
 ### Python
@@ -399,10 +495,37 @@ class MedInsightAPI:
         response.raise_for_status()
         return response.json()
 
+    # 🆕 Download PDF Report
+    def download_report(self, upload_id: str, api_key: str = None, save_path: str = None) -> str:
+        headers = {}
+        if api_key:
+            headers['x-api-key'] = api_key
+        
+        response = requests.get(
+            f"{self.base_url}/api/analysis/{upload_id}/download",
+            headers=headers
+        )
+        response.raise_for_status()
+        
+        # Get filename from headers or create default
+        content_disposition = response.headers.get('content-disposition', '')
+        filename = f"medinsight_report_{upload_id}.pdf"  # Default fallback
+        
+        # Save to file
+        if not save_path:
+            save_path = filename
+        
+        with open(save_path, 'wb') as f:
+            f.write(response.content)
+        
+        return save_path
+
 # Usage
 api = MedInsightAPI()
 upload_id = api.upload_report("medical_report.pdf")
 results = api.get_analysis(upload_id)
+pdf_path = api.download_report(upload_id, api_key="your-key")  # 🆕 PDF download
+print(f"PDF saved to: {pdf_path}")
 ```
 
 ---
@@ -422,8 +545,13 @@ curl -X POST \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@test_report.pdf'
 
-# Test analysis endpoint
-curl http://localhost:8000/api/analysis/{upload_id}
+# Test PDF download endpoint
+curl http://localhost:8000/api/analysis/test_id/download
+
+# Test PDF download with API key
+curl -H "x-api-key: your_key" \
+  http://localhost:8000/api/analysis/test_id/download \
+  --output report.pdf
 
 # Test health check
 curl http://localhost:8000/health
@@ -467,7 +595,9 @@ describe('MedInsight API', () => {
 - **Batch Processing**: Multiple file uploads
 - **Webhook Support**: Async processing notifications
 - **Advanced Analytics**: Historical data analysis
-- **Export Formats**: PDF, JSON, CSV export options
+- **Export Formats**: 🆕 PDF, JSON, CSV export options
+- **Report Templates**: Customizable PDF report styles
+- **Batch PDF Generation**: Multiple reports in one PDF
 
 ### Security Considerations
 - **File Validation**: All uploads scanned and validated
@@ -535,6 +665,7 @@ C:\tempp\projects\medinsight-ai\backend\
 |--------|----------|-------------|
 | POST | `/api/upload` | Upload and process medical report |
 | GET | `/api/analysis/{id}` | Retrieve analysis results |
+| GET | `/api/analysis/{id}/download` | 🆕 Download PDF report |
 | GET | `/health` | System health check |
 | GET | `/` | API information |
 

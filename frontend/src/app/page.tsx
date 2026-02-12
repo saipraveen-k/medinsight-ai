@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Upload, FileText, TrendingUp, Heart, ShieldCheck } from 'lucide-react'
+import { Upload, FileText, TrendingUp, Heart, ShieldCheck, Lock } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/60 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#BBDEF0] shadow-sm shadow-sky-400/40">
               <Heart className="h-5 w-5 text-sky-900" />
             </div>
@@ -25,16 +25,17 @@ export default function Home() {
                 MedInsight AI
               </span>
               <span className="text-xs text-slate-400">
-                Automated Medical Report Intelligence
+                Clinical decision-support tool
               </span>
             </div>
           </div>
           <nav className="flex items-center gap-3">
-            <span className="hidden text-xs text-slate-400 md:inline">
+            <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
+              <ShieldCheck className="h-3 w-3" />
               Clinical decision-support • Not a diagnosis tool
-            </span>
+            </div>
             <Link href="/upload">
-              <Button className="bg-sky-500 text-white shadow-lg shadow-sky-500/40 hover:bg-sky-400">
+              <Button className="bg-sky-500 text-white shadow-lg shadow-sky-500/40 hover:bg-sky-400 transition-all duration-300 hover:shadow-sky-400/60">
                 <Upload className="mr-2 h-4 w-4" />
                 Upload Report
               </Button>
@@ -203,15 +204,158 @@ export default function Home() {
             </Card>
           </div>
         </motion.div>
+
+        {/* 3-Step Process Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-16"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-50 mb-4">
+              How It Works
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Get AI-powered medical insights in three simple steps
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                step: 1,
+                title: "Upload PDF",
+                description: "Upload your medical report PDF (max 10MB)",
+                icon: <Upload className="h-6 w-6" />
+              },
+              {
+                step: 2,
+                title: "AI Analysis",
+                description: "AI extracts key parameters and calculates risk scores",
+                icon: <TrendingUp className="h-6 w-6" />
+              },
+              {
+                step: 3,
+                title: "Get Insights",
+                description: "Receive comprehensive analysis and recommendations",
+                icon: <FileText className="h-6 w-6" />
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="relative group"
+              >
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur" />
+                <div className="relative bg-slate-900/80 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 mb-4 mx-auto">
+                    {item.icon}
+                  </div>
+                  <div className="text-2xl font-bold text-cyan-400 mb-2">
+                    {item.step}
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-100 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Comparison Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-20"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-50 mb-4">
+              From Confusion to Clarity
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Transform complex medical reports into actionable insights
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm"
+            >
+              <h3 className="text-xl font-semibold text-red-400 mb-4">
+                📄 Raw Medical Report
+              </h3>
+              <div className="space-y-3 text-sm text-slate-400">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-400" />
+                  <span>Confusing medical terminology</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-400" />
+                  <span>Hard to identify abnormal values</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-400" />
+                  <span>No context or prioritization</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-400" />
+                  <span>Time-consuming to understand</span>
+                </div>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm"
+            >
+              <h3 className="text-xl font-semibold text-cyan-400 mb-4">
+                🎯 AI-Powered Dashboard
+              </h3>
+              <div className="space-y-3 text-sm text-slate-300">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Clear risk scoring (0-100)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Category-based insights</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Prioritized abnormal findings</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Actionable recommendations</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/90 py-6 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
-          <p>© 2024 MedInsight AI. All rights reserved.</p>
+      <footer className="border-t border-slate-900 bg-slate-950/90 py-8 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Lock className="h-3 w-3" />
+              <span>Processed securely. No permanent storage.</span>
+            </div>
+          </div>
+          <p>© 2026 MedInsight AI. All rights reserved made by BIT BROTHERS.</p>
           <p>
-            This is a clinical decision-support tool and does not replace professional
-            medical advice.
+            Clinical decision-support tool • Not a replacement for professional medical advice
           </p>
         </div>
       </footer>
