@@ -153,8 +153,7 @@ This is a clinical decision-support tool and does not replace professional medic
 - 🧪 **Quality Code**: TypeScript, proper error handling, responsive design
 
 ## License
-MIT
-
+All rights reservered by team Bit Brothers
 ---
 
 **© 2026 MedInsight AI. All rights reserved made by BIT BROTHERS.**
