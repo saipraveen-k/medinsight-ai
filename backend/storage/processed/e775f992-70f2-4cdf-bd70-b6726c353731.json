@@ -1,0 +1,95 @@
+{
+  "upload_id": "e775f992-70f2-4cdf-bd70-b6726c353731",
+  "filename": "medical-report.pdf",
+  "medical_data": {
+    "parameters": [
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      },
+      {
+        "name": "glucose",
+        "value": 6.0,
+        "unit": "mg/dL",
+        "category": "metabolic",
+        "normal_min": 70.0,
+        "normal_max": 100.0,
+        "is_abnormal": true
+      }
+    ],
+    "total_parameters": 6,
+    "abnormal_count": 6
+  },
+  "risk_score": {
+    "score": 20,
+    "level": "low",
+    "category_scores": {
+      "cardiac": 0.0,
+      "metabolic": 100.0,
+      "renal": 0.0,
+      "hepatic": 0.0,
+      "hematological": 0.0,
+      "electrolytes": 0.0
+    }
+  },
+  "ai_insights": {
+    "summary": "AI explanation unavailable. Review abnormal findings below and consult a healthcare provider.",
+    "abnormal_findings": [
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)",
+      "Glucose: 6.0 mg/dL (Normal: 70.0-100.0)"
+    ],
+    "recommendations": [
+      "Maintain healthy lifestyle habits.",
+      "Focus on blood sugar and cholesterol control."
+    ],
+    "when_to_consult_doctor": "Continue regular health monitoring.",
+    "disclaimer": "This AI-generated analysis is for informational purposes only and does not replace professional medical advice."
+  },
+  "status": "completed",
+  "processing_time": 0.7954959869384766
+}

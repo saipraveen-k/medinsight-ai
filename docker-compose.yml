@@ -1,32 +1,61 @@
+version: "3.9"
+
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://backend:8000}
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     volumes:
       - ./frontend:/app
-      - /app/node_modules
+      - node_modules:/app/node_modules
     command: npm run dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - medinsight
+    env_file:
+      - .env
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8000}:8000"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - DATABASE_URL=sqlite:///./storage/medinsight.db
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./storage/medinsight.db}
     volumes:
       - ./backend:/app
       - ./backend/storage:/app/storage
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 15s
+    networks:
+      - medinsight
+    env_file:
+      - .env
 
 volumes:
   node_modules:
+
+networks:
+  medinsight:
+    driver: bridge

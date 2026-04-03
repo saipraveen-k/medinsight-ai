@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { getCategoryIcon } from '@/lib/utils'
 
+
 interface CategoryCardsProps {
   categoryScores: Record<string, number>
   className?: string
