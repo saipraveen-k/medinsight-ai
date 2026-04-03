@@ -14,6 +14,7 @@ import { PremiumAIInsights } from '@/components/ui/premium-ai-insights'
 import { LoadingStepper } from '@/components/ui/loading-stepper'
 import { ToastContainer, Toast } from '@/components/ui/toast'
 
+
 interface AnalysisResult {
   upload_id: string
   status: string
